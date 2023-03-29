@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {%  if category %}
+        {{ category.description|truncatewords:155 }}
+    {% else %}
+        Welcome to our Store Where You Can Buy Different Items....
+    {% endif %}
+{% endblock %}
+{% block title %}
+ {%  if category %}
+        {{ category.name}}--LIFE STYLE
+    {% else %}
+        See Our New Collections-LIFE STYLE
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{%  if category %}
+
+
+  <div class="my_row_class">
+      <div class="mx_auto">
+      <p><a href="{% url 'shopapp:allProdCat' %}">Our Product Collections"</a></p>
+  </div>
+
+{% endif %}
+<div class="mx_auto">
+    {%  if category %}
+         <img src="{{category.image.url}}" alt="{{category.name}}">
+</div>
+    <br>
+<div>
+         <h1 class="text-center my_title">{{category.name}}</h1>
+         <p class="text-justify">{{category.description}}</p>
+</div>
+    {% else %}
+<div>
+     <img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" alt="Our Products" height="80" width="1609">
+</div>
+<br>
+<div>
+   <h1 class="text-center my_title">Our products collections</h1>
+   <p class="text-justify">Skip the queue and order from the wide range of best quality produce at affordable prices. Get safely ripened fruits delivered at your doorstep only on freshly.com. Contact Less Delivery. Lowest Prices. Quality You Can Trust.
+    <h2> Fresh Fruits Online</h2>
+For pregnant women, a combination of fresh fruits and vegetables can be used to make yummy smoothies, juices or salads. Such a diet is extremely beneficial for the unborn baby as well as the mother. Any fruits and vegetables list must include fruits from every colour group like all those bright red strawberries, yellow bananas, blue berries, etc so that you get all varieties of nutrients in your diet.
+    <h2>Vegetables and fruits India</h2>
+Doctors, dieticians, gym-instructors and beauty experts all agree that a diet rich in fruits and vegetables is a must for a healthy body. Vegetables and fruits can help you ward off heart disease and strokes, can help keep blood pressure under control, prevent some types of cancer and provide the maximum number of nutrients that are needed for proper growth and development of the body and mind.
+   </p>
+</div>
+{% endif %}
+<div class="container">
+   <div class="row mx_auto">
+        {% for product in products %}
+       <div class="my_bottom_margin col-9 col-sm-12  col-md-4 xol-lg-4">
+           <div class="card text-center" style="min-width:18rem;">
+               <a href="{{product.get_url}}"><img class="card-img-top my_image" style="height:300px;"  src="{{product.image.url}}"  alt="{{product.name}}"  style="width:240px;"></a>
+               <div class="card-body">
+                   <h4>{{product.name}}</h4>
+                 <p>{{product.price}}</p>
+               </div>
+           </div>
+       </div>
+       {% endfor %}
+   </div>
+</div>
+<div class="mx-auto">
+{% if products.paginator.num_pages > 1 %}
+<hr>
+
+<div class="text-center">
+{% for pg in products.paginator.page_range %}
+<a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+{% endfor %}
+</div>
+{% endif %}
+
+
+</div>
+<br>
+</div>
+{% endblock %}
+
